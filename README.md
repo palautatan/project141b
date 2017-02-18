@@ -1,5 +1,5 @@
 # White House Petitions and Bills
-We have an overall goal of comparing language between petitions and bills to determine if changes in government reflect We the People.
+We have two overall goals (1) of comparing language between petitions and bills to determine if changes in government reflect We the People and (2) determining what socioeconomic factors produce liberal or conservative bills.
 
 ## We the People
 Source: https://petitions.whitehouse.gov/about
