@@ -1,0 +1,54 @@
+,index,petition,pred_ideol,true_ideol,correct,conservative,liberal,neutral
+0,128,donald trump's anti-immigration executive order.,Liberal,Liberal,True,0.09,0.91,0.0
+1,129,remove steve bannon as a member of the national security council and reinstate the dni and cjcs as required attendees.,Liberal,Liberal,True,0.1,0.87,0.03
+2,130,remove steve bannon and restore military and intelligence officials as full members of  the  national security council,Liberal,Liberal,True,0.12,0.81,0.07
+3,4,release kevin trudeau,Liberal,Neutral,False,0.3,0.54,0.16
+4,134,"cancel executive order banning immigration from iran, iraq, libya, somalia, sudan, syria and yemen.",Liberal,Liberal,True,0.22,0.74,0.04
+5,257,repeal the  hughes amendment,Conservative,Conservative,True,0.97,0.02,0.01
+6,9,we strongly protest exclusion of news orgs. from whitehouse press briefings. media access is crucial to public interest.,Liberal,Liberal,True,0.18,0.74,0.08
+7,10,immediately give hillarybeattrump.org permanent white house press credentials!,Liberal,Neutral,False,0.3,0.56,0.14
+8,141,stop president trumpxs order to blocks arrival at airports for visa and green card holders,Liberal,Liberal,True,0.24,0.56,0.2
+9,146,immediately rescind the executive order on immigration that blocks refugees and syrians,Liberal,Liberal,True,0.21,0.64,0.15
+10,25,petition to ban google's blatant suppression of free speech,Liberal,Conservative,False,0.28,0.64,0.08
+11,201,release voter fraud data and investigate,Liberal,Liberal,True,0.15,0.73,0.12
+12,31,reinstate school protections for transgender youth,Liberal,Liberal,True,0.06,0.87,0.07
+13,165,help families combat the addiction epidemic.,Liberal,Neutral,False,0.3,0.54,0.16
+14,177,remove the gag order on federal agency public interfacing and allow the agencies to communicate freely with the public.,Liberal,Liberal,True,0.14,0.85,0.01
+15,40,deregulate home distillation of alcoholic spirits for personal consumption,Liberal,Neutral,False,0.18,0.73,0.09
+16,41,the us house lawmakers should relist north korea as a state sponsor of terrorism,Conservative,Conservative,True,0.36,0.36,0.28
+17,42,we petition the trump administration to:  facilitate the re-importation of historic u.s. firearms.,Liberal,Conservative,False,0.37,0.46,0.17
+18,45,we call for a  joint select committee to investigate russian attempts to influence the  u.s. election.,Liberal,Liberal,True,0.35,0.51,0.14
+19,174,stop the dakota access pipeline,Liberal,Liberal,True,0.1,0.87,0.03
+20,49,road traffic enforcement has been carried out unlawfully. this needs to be corrected and the public informed.,Liberal,Liberal,True,0.24,0.63,0.13
+21,53,investigate the trump administration's russia connections,Liberal,Liberal,True,0.18,0.82,0.0
+22,182,stop the construction of the dakota access pipeline and ensure that the rights of native americans are protected,Liberal,Liberal,True,0.33,0.54,0.13
+23,55,congress needs to act on congressman alcee hasting's house resolution  condemning the yulin dog meat festival,Liberal,Neutral,False,0.23,0.59,0.18
+24,138,remove the immigration ban,Liberal,Liberal,True,0.11,0.87,0.02
+25,181,"keep the us open to refugees from syria, iraq, yemen, somalia, iran and libya",Liberal,Liberal,True,0.15,0.8,0.05
+26,64,"repeal all unconstitutional gun laws in the state of new jersey. laws banning mag capacity, stocks, barrel length etc",Liberal,Conservative,False,0.31,0.57,0.12
+27,65,"hault the exective ordered destruction of marine habitat by ending ""idle iron""",Liberal,Liberal,True,0.18,0.75,0.07
+28,227,"we the people call upon the congress, the president, and the government of michigan to decontaminate the water of flint.",Liberal,Liberal,True,0.08,0.84,0.08
+29,72,"charge hillary rodham clinton pursuant to  u.s.c , , , , , and ",Liberal,Conservative,False,0.31,0.62,0.07
+30,73,kellyanne conway should be fired and replaced immediately.,Liberal,Liberal,True,0.13,0.81,0.06
+31,183,stop the keystone xl and dakota access oil pipelines!,Liberal,Liberal,True,0.06,0.88,0.06
+32,208,replace your nomination of education secretary-nominee betsy devos with a more qualified individual.,Liberal,Liberal,True,0.11,0.8,0.09
+33,81,"diaoyutai  islands have belonged to china, not japan.  please correct the policy.",Liberal,Neutral,False,0.38,0.44,0.18
+34,210,"kids need both parents,  modify the child support provisions of social security act to support this.",Liberal,Conservative,False,0.3,0.51,0.19
+35,83,annual titer tests required in lieu of re-vaccination of our pets,Liberal,Neutral,False,0.18,0.71,0.11
+36,212,commit to following the paris agreement,Liberal,Liberal,True,0.09,0.75,0.16
+37,213,reform child welfare-foster care and family courtsstop title iv d &amp; e funding and adoption incentives,Liberal,Conservative,False,0.26,0.58,0.16
+38,215,req. agriculture to publish final rule -- horse protection; licensing of designated qualified persons &amp; other amendments,Liberal,Neutral,False,0.21,0.74,0.05
+39,228,"commute or pardon sergeant miller, review all current military prisoners and review the uniform code of military justice",Liberal,Conservative,False,0.26,0.58,0.16
+40,222,"do not embrace shale oil, the coal industry and do not open up more public lands, forests and wetlands to drilling.",Liberal,Liberal,True,0.04,0.91,0.05
+41,226,"do not take health insurance away from  million americans, protect the aca and the medicaid expansion",Liberal,Liberal,True,0.18,0.61,0.21
+42,99,ask president trump to help put prayer back in schools,Liberal,Conservative,False,0.12,0.88,0.0
+43,100,we the people: call on congress and the administration to declare #antifa and its' subsidiaries a terrorist organization,Conservative,Conservative,True,0.48,0.44,0.08
+44,229,make antifa and similar militant leftist groups labeled a terrorist or criminal organization.,Liberal,Conservative,False,0.3,0.58,0.12
+45,230,remove regulations and unconstitutional tax on short barreled rifles (sbr) of national firearms act of ,Conservative,Conservative,True,0.63,0.22,0.15
+46,106,do not cut the office of violence against women!,Liberal,Conservative,False,0.12,0.88,0.0
+47,111,"we, the citizens of the united states of america, demand donald trump be impeached.",Liberal,Liberal,True,0.16,0.81,0.03
+48,241,charge madonna with terrorist threats against the president of the united states of america.,Liberal,Conservative,False,0.33,0.51,0.16
+49,114,fire steve bannon,Liberal,Liberal,True,0.09,0.86,0.05
+50,251,"we the decent venezuelan people ask president donald trump to help recoup venezuela's sovereignty, liberty and democracy",Liberal,Conservative,False,0.29,0.53,0.18
+51,200,"based on donald trump's own claims of rampant voter fraud, immediately nullify results of the  presidential election",Liberal,Liberal,True,0.22,0.64,0.14
+52,254,do not defund the nea or neh,Liberal,Liberal,True,0.13,0.83,0.04
