@@ -1,9 +1,7 @@
 # Collaborators
 This project, although hosted on my site, was a collaborative project between myself and two outstanding others.
 
-Patrick Vacek, his profile: https://github.com/pvacek
-
-Graham Smith, his profile: https://github.com/Graym4c
+See Patrick Vacek's <a href=https://github.com/pvacek>profile</a> and Graham Smith's <a href= https://github.com/Graym4c>profile</a> for data science brilliance.
 
 # White House Petitions
 We have two overall goals (1) of comparing language between petitions to classify whether petitions are liberal, neutral, or conservative and (2) to predict the success of a petition given the variables we were able to acquire through the We The People API. We will be pursuing these goals in Python 2 and R.
