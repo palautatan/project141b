@@ -53,3 +53,4 @@ conf.mat#
 # Create data frame with test data and predicted category#
 df.pred = cbind(knn.pred, modeldata[test, ])#
 write.table(df.pred, file="knn_output.csv", sep=";")
+1-.4045802
