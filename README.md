@@ -1,16 +1,7 @@
-<div align=center>
-<a href="/"><img src="http://i67.tinypic.com/2w5lfmb.jpg" width=800 title="Back to palautatan.github.io"></a>
-<br>
-<b>22. San Francisco, CA.</b>
-<br>
-I've only been programming for a year, but it already feels like a lifetime. Palautatan means "statistics" in Tagalog.
-<br><br>
-<a href="/">View Home Page</a> | <a href="https://github.com/palautatan">View My GitHub Profile</a>
-</div>
-
 # Collaborators
-https://github.com/pvacek
-https://github.com/Graym4c
+This project, although hosted on my site, was a collaborative project between myself and two outstanding others.
+Patrick Vacek, his profile: https://github.com/pvacek
+Graham Smith, his profile: https://github.com/Graym4c
 
 # White House Petitions
 We have two overall goals (1) of comparing language between petitions to classify whether petitions are liberal, neutral, or conservative and (2) to predict the success of a petition given the variables we were able to acquire through the We The People API. We will be pursuing these goals in Python 2 and R.
