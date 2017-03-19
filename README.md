@@ -1,5 +1,5 @@
 # Collaborators
-This project, although hosted on my site, was a collaborative project between myself and two outstanding others.
+This project, although hosted on my site, was a <b>collaborative project</b> between myself and two outstanding others.
 
 See Patrick Vacek's <a href=https://github.com/pvacek>profile</a> and Graham Smith's <a href= https://github.com/Graym4c>profile</a> for data science brilliance.
 
