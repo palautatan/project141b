@@ -1,6 +1,8 @@
 # Collaborators
 This project, although hosted on my site, was a collaborative project between myself and two outstanding others.
+
 Patrick Vacek, his profile: https://github.com/pvacek
+
 Graham Smith, his profile: https://github.com/Graym4c
 
 # White House Petitions
