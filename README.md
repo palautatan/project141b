@@ -16,12 +16,6 @@ All that being said, it is even more critical that everyone become both involved
 
 To test our belief that our algorithm can be used in general to classify other text sources to uncover linguistic bias, we will apply our text processing algorithm to tweets from 23 political sources.
 
-# Data Sources
-Using the <a href="https://petitions.whitehouse.gov/developers">We the People API</a>, we were able to extract petition data for several hundred petitions. The information we retrieved includes:
-(1) the petition ID, (2) date created, (3) deadline date, (4) petition title, (5) issues addressed, (6) petition type, (7) signature count, (8) the petition itself, and (9) the URL to the petition.
-
-We also webscraped the 20 most recent tweets, straight from 20 political sources on Twitter. We manually compiled the URL and name of profile in the <a href="data/twitter_links.csv">twitter_links.csv</a> file.
-
 
 # Project Contents
 Our project has been organized into separate Jupyter notebooks. You can read through by starting with our first link, then continuing on by navigating with the "Previous" and "Next" links at the top and bottom of all of our webpages. If you have any questions, you can email us.
