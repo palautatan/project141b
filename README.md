@@ -26,7 +26,8 @@ We also webscraped the 20 most recent tweets, straight from 20 political sources
 # Project Contents
 Our project has been organized into separate Jupyter notebooks. You can read through by starting with our first link, then continuing on by navigating with the "Previous" and "Next" links at the top and bottom of all of our webpages. If you have any questions, you can email us.
 <ol>
-<li><a href="https://github.com/palautatan/project141b/blob/master/STA%20141B%20Project%20(Data%20Exploration).ipynb">Preliminary Petition Success Model Fitting</a></li>
+<li><a href="/">Data Acquisition</a></li>
+<li><a href="/">Preliminary Petition Success Model Fitting</a></li>
 <li><a href="/">Exploring Language of White House Petitions</a></li>
 <li><a href="/">Fitting Random Forests On Petition Language</a></li>
 <li><a href="/">Applying Algorithm on Political Tweets</a></li>
