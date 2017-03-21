@@ -8,11 +8,11 @@ Our project has been organized into separate Jupyter notebooks. You can read thr
 <ol>
 <li><a href="html/data_acquisition.html">Data Acquisition</a></li>
 <li><a href="html/success_fitting.html">Preliminary Petition Success Model Fitting</a></li>
-<li><a href="/">Exploring Language of White House Petitions</a></li>
-<li><a href="/">Fitting Random Forests On Petition Language</a></li>
-<li><a href="/">Applying Algorithm on Political Tweets</a></li>
-<li><a href="/">Adding Language Facet to Prediction Model</a></li>
-<li><a href="/">Conclusions</a></li>
+<li><a href="html/exploring_language.html">Exploring Language of White House Petitions</a></li>
+<li><a href="html/fit_forest.html">Fitting Random Forests On Petition Language</a></li>
+<li><a href="html/tweets.html">Applying Algorithm on Political Tweets</a></li>
+<li><a href="html/more_prediction.html">Adding Language Facet to Prediction Model</a></li>
+<li><a href="html/conclusions.html">Conclusions</a></li>
 </ol>
 
 # Finding Bias in Political Language
