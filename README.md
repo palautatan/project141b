@@ -29,4 +29,4 @@ All that being said, it is even more critical that everyone become both involved
 To test our belief that our algorithm can be used in general to classify other text sources to uncover linguistic bias, we will apply our text processing algorithm to tweets from 23 political sources.
 
 # Start Here
-<a href="html/data_acquisition.html">Next Step: Data Acquisition</a>
+<font size="4"><a href="html/data_acquisition.html">Next Step: Data Acquisition</a></font>
