@@ -27,3 +27,6 @@ The right to petition, guaranteed by the First Amendment, is supported by the We
 All that being said, it is even more critical that everyone become both involved in the political process and active consumers of information - a word here which means to be aware of the source, thoroughness, and intent behind the information. To this end our group created a two part algorithm to represent both of these goals. The first part was the construction of a logistic regression model to predict whether or not a White House Petition would hit the 100,000-signature threshold necessary for the president to be legally required to respond, based on the rate at which it receives signatures. Second was to create a classifier for determining the probability that a particular petition is 'Liberal' or 'Conservative' based on word choice. Finally, we brought these two pieces together in a generalized algorithm that looks at both signature rate over time and vocabulary to determine how likely it is that a petition will succeed.
 
 To test our belief that our algorithm can be used in general to classify other text sources to uncover linguistic bias, we will apply our text processing algorithm to tweets from 23 political sources.
+
+# Start Here
+<a href="html/data_acquisition.html">Next Step: Data Acquisition</a>
