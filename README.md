@@ -7,7 +7,7 @@ See <b>Patrick Vacek</b>'s <a href="https://github.com/pvacek">profile</a> and <
 Our project has been organized into separate Jupyter notebooks. You can read through by starting with our first link, then continuing on by navigating with the "Previous" and "Next" links at the top and bottom of all of our webpages. If you have any questions, you can email us.
 <ol>
 <li><a href="html/data_acquisition.html">Data Acquisition</a></li>
-<li><a href="/">Preliminary Petition Success Model Fitting</a></li>
+<li><a href="html/success_fitting.html">Preliminary Petition Success Model Fitting</a></li>
 <li><a href="/">Exploring Language of White House Petitions</a></li>
 <li><a href="/">Fitting Random Forests On Petition Language</a></li>
 <li><a href="/">Applying Algorithm on Political Tweets</a></li>
