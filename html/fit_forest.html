@@ -11766,7 +11766,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h1><p><font size="4">
-In order to supplement our prediction model, we decided to predict whether a petition leans more liberal or conservative.
+We used a Random Forest model for our data, both because it's a very general approach, and because they are straightforward to run and explain. We chose it over similar methods like KNN because overall the error rate was much lower. You can view the code where we implemented KNN <a href=”https://github.com/palautatan/project141b/blob/master/code/knn.R”>here</a>.  A possible modification of this model might be to use boosting instead, if we planned on running it many times sequentially since that method uses fewer trees and thus might theoretically run faster (along with aiding in interpretability since the models will be smaller).
 </font></p>
 <h1 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h1><ol>
 <li><a href="#Libraries">Libraries</a></li>
@@ -11904,8 +11904,8 @@ These functions are to clean up the text.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Removing-Neutrality">Removing Neutrality<a class="anchor-link" href="#Removing-Neutrality">&#182;</a></h1><p><font size="4">
-We will remove the neutral documents to train our Random Forest. We only want to classify as Liberal or Conservative. We can potentially decide later if an article is neutral if their predicted probabilities for Liberal and Conservative are equal.
-</font></p>
+We suspected that it would be beneficial to remove the neutral petitions from our model, since we’re really more interested in detecting bias than we are in predicting neutrality.
+ </font></p>
 
 </div>
 </div>
@@ -12156,7 +12156,7 @@ Let's train a Random Forest to the petition text.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Calculating-Error-Rate">Calculating Error Rate<a class="anchor-link" href="#Calculating-Error-Rate">&#182;</a></h2><p><font size="4">
-We wrongly classified data that truly only had "conservative" or "liberal" labels 38.64% of the time.
+To test if our suspicions about removing neutrality were correct, we first calculated the misclassification rate only looking at ‘conservative’ or ‘liberal’ petitions and got 38.64%. This is surprisingly good, given that our model is relatively simple and only looks at vocabulary choice. A more advanced model like a Markov chain that also takes word order into consideration would likely be even more accurate. Nevertheless, we’re only managing to be 11.36% better than chance which is clearly not fantastic in absolute terms.
 </font></p>
 
 </div>
