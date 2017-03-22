@@ -11769,7 +11769,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Data-Sources">Data Sources<a class="anchor-link" href="#Data-Sources">&#182;</a></h1><p><font size="4">
-We retrieved our data from two sources: the We The People API and from Twitter profile pages.
+Our first step is to compile the data we will be working with, which we retrieved  from two sources: the We The People API for White House petition data, and from Twitter profile pages. These seemed like decent proxies for the metrics we intended to look for, as White House petitions can be submitted by anyone and twitter is a reasonably acceptable barometer for public opinion (although it tends to skew more liberal which makes it far from ideal).
 </font></p>
 <h1 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h1><p><font size="4"></p>
 <ol>
@@ -11819,7 +11819,7 @@ Using the <a href="https://petitions.whitehouse.gov/developers">We the People AP
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="4">
-The following are the functions we used to retrieve the data we desired.</p>
+First we wrote several functions to access the API and retrieve the necessary data.</p>
 
 </div>
 </div>
@@ -11928,7 +11928,8 @@ This is the dataframe we constructed.</p>
 <h1 id="Webscraping-Twitter">Webscraping Twitter<a class="anchor-link" href="#Webscraping-Twitter">&#182;</a></h1><p><font size="4">
 We also webscraped the 20 most recent tweets, straight from 20 political sources on Twitter, a site where many retrieve their political news. We manually compiled the URL and name of profile in the <a href="data/twitter_links.csv">twitter_links.csv</a> file.
 <br><br>
-<b>We scared the following profiles</b>: Donald Trump, Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, We the People</p>
+We wanted to get a sampling of people from every position on the political spectrum, so our scraped profiles cover a variety of mainstream/fringe politicians and media figures. These included: Donald Trump, Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, and We the People.  
+    </p>
 
 </div>
 </div>
