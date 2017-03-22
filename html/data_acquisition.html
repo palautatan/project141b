@@ -15,7 +15,7 @@ See <b>Patrick Vacek</b>'s <a href="https://github.com/pvacek">profile</a> and <
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>data_acquisition</title>
+<title>Data Acquisition</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11701,9 +11701,6 @@ ul.typeahead-list > li > a {
 .ansi-bold { font-weight: bold; }
 
     </style>
-<style type="text/css">
-    
-    </style>
 
 
 <style type="text/css">
@@ -11769,7 +11766,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Data-Sources">Data Sources<a class="anchor-link" href="#Data-Sources">&#182;</a></h1><p><font size="4">
-Our first step is to compile the data we will be working with, which we retrieved  from two sources: the We The People API for White House petition data, and from Twitter profile pages. These seemed like decent proxies for the metrics we intended to look for, as White House petitions can be submitted by anyone and twitter is a reasonably acceptable barometer for public opinion (although it tends to skew more liberal which makes it far from ideal).
+Our first step is to compile the data we will be working with, which we retrieved from two sources: the We The People API for White House petition data, and from Twitter profile pages. These seemed like decent proxies for the metrics we intended to look for, as White House petitions can be submitted by anyone and twitter is a reasonably acceptable barometer for public opinion (although it tends to skew more liberal which makes it far from ideal).
 </font></p>
 <h1 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h1><p><font size="4"></p>
 <ol>
@@ -11784,7 +11781,7 @@ Our first step is to compile the data we will be working with, which we retrieve
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="We-The-People-API">We The People API<a class="anchor-link" href="#We-The-People-API">&#182;</a></h1><p><font size="4">
+<h1 id="We-The-People-API">We The People API<a class="anchor-link" href="#We-The-People-API">&#182;</a></h1><h2 id="Import-packages,-set-up-a-function-to-extract-the-live-petitions">Import packages, set up a function to extract the live petitions<a class="anchor-link" href="#Import-packages,-set-up-a-function-to-extract-the-live-petitions">&#182;</a></h2><p><font size="4">
 Using the <a href="https://petitions.whitehouse.gov/developers">We the People API</a>, we were able to extract petition data for several hundred petitions. The information we retrieved includes:
 (1) the petition ID, (2) date created, (3) deadline date, (4) petition title, (5) issues addressed, (6) petition type, (7) signature count, (8) the petition itself, and (9) the URL to the petition.</p>
 
@@ -11793,19 +11790,18 @@ Using the <a href="https://petitions.whitehouse.gov/developers">We the People AP
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># LIBRARIES</span>
 <span class="kn">from</span> <span class="nn">fastcache</span> <span class="kn">import</span> <span class="n">clru_cache</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-
-<span class="n">sandkey</span><span class="o">=</span><span class="s2">&quot;TgltV3qLpU4EPb6LJF7Lx7wRJ6CMMVe5l7YBctBC&quot;</span>
-<span class="n">prodkey</span><span class="o">=</span><span class="s2">&quot;ETjU0uiiXFfA9AqvBUFooOEx2OmBdeq0nquzM1k4&quot;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11819,55 +11815,89 @@ Using the <a href="https://petitions.whitehouse.gov/developers">We the People AP
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="4">
-First we wrote several functions to access the API and retrieve the necessary data.</p>
+I will be using clru_cache, which is a function cache, in order to cache queries. This means I need to make sure the function has as few unique parameters as possible. The following are the functions we used to retrieve the data we desired.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># FUNCTION</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;ETjU0uiiXFfA9AqvBUFooOEx2OmBdeq0nquzM1k4&quot;</span>
+
+<span class="c1"># API EXTRACTION FUNCTION</span>
 <span class="nd">@clru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span><span class="n">typed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">sandbox_test</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="s2">&quot;15&quot;</span><span class="p">):</span>
-    <span class="n">base</span><span class="o">=</span><span class="s2">&quot;https://api.whitehouse.gov/v1/petitions.json?limit=&quot;</span><span class="o">+</span><span class="n">limit</span>
-    <span class="n">request_get</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base</span><span class="o">+</span><span class="s2">&quot;&amp;api_key=&quot;</span><span class="o">+</span><span class="n">prodkey</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_petitions</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="s2">&quot;1000&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    get_petitions: extract petitions from the WeThePeople API</span>
+<span class="sd">    INPUT: limit(string): Number of petitions to return.</span>
+<span class="sd">    OUTPUT: request_json(dict): A dictionary containing the JSON file&quot;&quot;&quot;</span>
+    <span class="n">base</span><span class="o">=</span><span class="s2">&quot;https://api.whitehouse.gov/v1/petitions.json?limit=&quot;</span><span class="o">+</span><span class="n">limit</span><span class="o">+</span><span class="s2">&quot;&amp;sortBy=date_reached_public&quot;</span><span class="o">+</span><span class="s2">&quot;&amp;sortOrder=desc&quot;</span>
+    <span class="n">request_get</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base</span><span class="o">+</span><span class="s2">&quot;&amp;api_key=&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">)</span>
     <span class="n">request_json</span><span class="o">=</span><span class="n">request_get</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="k">return</span><span class="p">(</span><span class="n">request_json</span><span class="p">)</span>
-
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">sandbox_test</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+It should be noted that we can convert a dictionary into a dataframe simply by calling Pd.DataFrame. As we can see, the petitions are stored under the "results" key. If we call pd.DataFrame on this object in the future, it will make it easier to work with.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># UNIX TIME CONVERSION CODE BORROWED FROM STACK</span>
-<span class="k">def</span> <span class="nf">extract_field</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
-    <span class="n">pet_id</span><span class="o">=</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_created</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;created&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_deadline</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;deadline&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_title</span><span class="o">=</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_issues</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;amp;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">issue</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_type</span><span class="o">=</span><span class="p">[[</span><span class="n">category</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;petition_type&quot;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_count</span><span class="o">=</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;signatureCount&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_body</span><span class="o">=</span><span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&amp;(amp;)*#039;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_url</span><span class="o">=</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">query</span><span class="p">]</span>
-    <span class="n">pet_list</span><span class="o">=</span><span class="p">[</span><span class="n">pet_id</span><span class="p">,</span><span class="n">pet_created</span><span class="p">,</span><span class="n">pet_deadline</span><span class="p">,</span><span class="n">pet_title</span><span class="p">,</span><span class="n">pet_issues</span><span class="p">,</span><span class="n">pet_type</span><span class="p">,</span><span class="n">pet_count</span><span class="p">,</span><span class="n">pet_body</span><span class="p">,</span><span class="n">pet_url</span><span class="p">]</span>
-    <span class="n">pet_array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">column</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">pet_list</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">pet_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pet_array</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;created&quot;</span><span class="p">,</span><span class="s2">&quot;deadline&quot;</span><span class="p">,</span><span class="s2">&quot;title&quot;</span><span class="p">,</span><span class="s2">&quot;issues&quot;</span><span class="p">,</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;count&quot;</span><span class="p">,</span><span class="s2">&quot;body&quot;</span><span class="p">,</span><span class="s2">&quot;url&quot;</span><span class="p">])</span>
-    <span class="k">return</span><span class="p">(</span><span class="n">pet_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">get_petitions</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)[</span><span class="s2">&quot;results&quot;</span><span class="p">]</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[{u&#39;body&#39;: u&#39;The Affordable Care Act (ACA) has enabled millions of Americans to obtain life-saving health care that has been unavailable to many in the past. Under the ACA, people with pre-existing conditions can get the health care that they need to improve quality of life. We urge the Administration to keep the key components of the ACA intact, including not allowing exclusion for pre-existing conditions. Let us maintain our moral compass as a nation and facilitate health care access for all Americans, regardless of ability to pay.&#39;,
+  u&#39;created&#39;: 1488599633,
+  u&#39;deadline&#39;: 1491188033,
+  u&#39;id&#39;: u&#39;2516526&#39;,
+  u&#39;isPublic&#39;: True,
+  u&#39;isSignable&#39;: True,
+  u&#39;issues&#39;: [{u&#39;id&#39;: 25, u&#39;name&#39;: u&#39;Health Care&#39;}],
+  u&#39;petition_type&#39;: [{u&#39;id&#39;: 281,
+    u&#39;name&#39;: u&#39;Change an existing Administration policy&#39;}],
+  u&#39;reachedPublic&#39;: 1490120785,
+  u&#39;response&#39;: [],
+  u&#39;signatureCount&#39;: 155,
+  u&#39;signatureThreshold&#39;: 100000,
+  u&#39;signaturesNeeded&#39;: 99845,
+  u&#39;status&#39;: u&#39;open&#39;,
+  u&#39;title&#39;: u&#39;Keep, but modify, the Affordable Care Act&#39;,
+  u&#39;type&#39;: u&#39;petition&#39;,
+  u&#39;url&#39;: u&#39;https://petitions.whitehouse.gov/petition/keep-modify-affordable-care-act&#39;}]</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11883,12 +11913,30 @@ This is the dataframe we constructed.</p>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-2:-Cleaning-the-petitions-data">Step 2: Cleaning the petitions data<a class="anchor-link" href="#Step-2:-Cleaning-the-petitions-data">&#182;</a></h2><p><font size="4">
+Our next step is converting all of the live petitions into an easy to read dataframe. To do this, we will need to create a function that handles the JSON and does a couple of string manipulation techniques to clean the data.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">extract_field</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">json_to_df</span><span class="p">(</span><span class="n">json</span><span class="p">):</span>
+    <span class="c1">#Create a dataframe from the dictionary, some values will be raw and need conversion</span>
+    <span class="n">pet_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+    <span class="c1">#The issues and petition type fields need fixing</span>
+    <span class="n">pet_df</span><span class="o">.</span><span class="n">issues</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;amp;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">issue</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">json</span><span class="p">])</span>
+    <span class="n">pet_df</span><span class="o">.</span><span class="n">petition_type</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">category</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;petition_type&quot;</span><span class="p">]])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">json</span><span class="p">])</span>
+    <span class="n">pet_df</span> <span class="o">=</span> <span class="n">pet_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">pet_df</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11901,18 +11949,383 @@ This is the dataframe we constructed.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="http://i65.tinypic.com/2nqqlqd.png"></p>
+<p><font size="4">
+Finally, we can run our functions to generate the data frame. We will be using the petition id for the next step. I've included an optional cell that writes the data if necessary.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">json_petitions</span><span class="o">=</span><span class="n">get_petitions</span><span class="p">()</span>
+<span class="n">petitions</span><span class="o">=</span><span class="n">json_to_df</span><span class="p">(</span><span class="n">json_petitions</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">])</span>
+<span class="n">petitions</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>body</th>
+      <th>created</th>
+      <th>deadline</th>
+      <th>id</th>
+      <th>isPublic</th>
+      <th>isSignable</th>
+      <th>issues</th>
+      <th>petition_type</th>
+      <th>reachedPublic</th>
+      <th>signatureCount</th>
+      <th>signatureThreshold</th>
+      <th>signaturesNeeded</th>
+      <th>status</th>
+      <th>title</th>
+      <th>type</th>
+      <th>url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>The Affordable Care Act (ACA) has enabled mill...</td>
+      <td>1488599633</td>
+      <td>1491188033</td>
+      <td>2516526</td>
+      <td>True</td>
+      <td>True</td>
+      <td>Health Care</td>
+      <td>Change an existing Administration policy</td>
+      <td>1490120785</td>
+      <td>155</td>
+      <td>100000</td>
+      <td>99845</td>
+      <td>open</td>
+      <td>Keep, but modify, the Affordable Care Act</td>
+      <td>petition</td>
+      <td>https://petitions.whitehouse.gov/petition/keep...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>The &amp;quot;fake news&amp;quot; meme suppresses the ...</td>
+      <td>1487985976</td>
+      <td>1490574376</td>
+      <td>2511691</td>
+      <td>True</td>
+      <td>True</td>
+      <td>Civil Rights &amp; Equality, Economy &amp; Jobs</td>
+      <td>Call on Congress to act on an issue</td>
+      <td>1490103886</td>
+      <td>158</td>
+      <td>100000</td>
+      <td>99842</td>
+      <td>open</td>
+      <td>Google, et al., recent actions violate freedom...</td>
+      <td>petition</td>
+      <td>https://petitions.whitehouse.gov/petition/goog...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Stop SPRAYING the chemtrails. It's poisoning o...</td>
+      <td>1489957100</td>
+      <td>1492549100</td>
+      <td>2524366</td>
+      <td>True</td>
+      <td>True</td>
+      <td>Energy &amp; Environment</td>
+      <td>Call on Congress to act on an issue</td>
+      <td>1490088738</td>
+      <td>335</td>
+      <td>100000</td>
+      <td>99665</td>
+      <td>open</td>
+      <td>STOP THE SPRAYING OF THE CHEMTRAILS</td>
+      <td>petition</td>
+      <td>https://petitions.whitehouse.gov/petition/stop...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Allow nation-wide concealed carry to any indiv...</td>
+      <td>1488552578</td>
+      <td>1491140978</td>
+      <td>2515941</td>
+      <td>True</td>
+      <td>True</td>
+      <td>Government &amp; Regulatory Reform</td>
+      <td>Propose a new Administration policy</td>
+      <td>1490052376</td>
+      <td>173</td>
+      <td>100000</td>
+      <td>99827</td>
+      <td>open</td>
+      <td>Enact legislation to provide nation-wide recip...</td>
+      <td>petition</td>
+      <td>https://petitions.whitehouse.gov/petition/enac...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Sheriff Joe Arpaio is under assault from the L...</td>
+      <td>1489776659</td>
+      <td>1492368659</td>
+      <td>2523566</td>
+      <td>True</td>
+      <td>True</td>
+      <td>Criminal Justice Reform</td>
+      <td>Take or explain a position on an issue or policy</td>
+      <td>1489951075</td>
+      <td>217</td>
+      <td>100000</td>
+      <td>99783</td>
+      <td>open</td>
+      <td>PROTECT SHERIFF JOE ARPAIO FROM UNLAWFUL PROSE...</td>
+      <td>petition</td>
+      <td>https://petitions.whitehouse.gov/petition/prot...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">petitions</span> <span class="o">=</span> <span class="n">extract_field</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">])</span>
-<span class="c1"># petitions.to_csv(&quot;petitions.csv&quot;)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#petitions.to_csv(&quot;petitions.csv&quot;)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+I ended up labelling the petitions as "Liberal" or "Conservative" myself, which may introduce some bias. Nonetheless, additional data was acquired and compared to measure the effectiveness of the model, which may help reduce the effect of the bias.
+</font></p>
+<h2 id="Step-3:-Developing-the-ideal-petition-signatures-data.">Step 3: Developing the ideal petition signatures data.<a class="anchor-link" href="#Step-3:-Developing-the-ideal-petition-signatures-data.">&#182;</a></h2><p><font size="4">
+The next step in the process is acquiring and making data that I could use for the creation of my model predicting petition success. We start off by creating another function to query the signatures portion of the API. We now need to call the API by petition id, and I also introduce a new variable called offset because many signatures have a significant amount of petitions that cannot be extracted in a single query.
+</font></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nd">@clru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span><span class="n">typed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_signatures</span><span class="p">(</span><span class="n">pet_id</span><span class="p">,</span><span class="n">limit</span><span class="o">=</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    get_signatures: Extract a set of signatures from a WeThePeople petition</span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    pet_id(string): The petition id from the petitions section of the API</span>
+<span class="sd">    limit(string): The number of signatures to return</span>
+<span class="sd">    offset(string): The index at which to start on the list of petitions</span>
+<span class="sd">    OUTPUT:</span>
+<span class="sd">    request_json(dict): A dictionary containing the JSON file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">base</span><span class="o">=</span><span class="s2">&quot;https://api.whitehouse.gov/v1/petitions/&quot;</span><span class="o">+</span><span class="n">pet_id</span><span class="o">+</span><span class="s2">&quot;/signatures.json?limit=&quot;</span><span class="o">+</span><span class="n">limit</span><span class="o">+</span><span class="s2">&quot;&amp;offset=&quot;</span><span class="o">+</span><span class="n">offset</span>
+    <span class="n">request_get</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base</span><span class="o">+</span><span class="s2">&quot;&amp;api_key=&quot;</span><span class="o">+</span><span class="n">prodkey</span><span class="p">)</span>
+    <span class="n">request_json</span><span class="o">=</span><span class="n">request_get</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">request_json</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+As we saw in the petitions dataframe, the time variables "created" and "deadline" are not in a conventional format. They are actually in UNIX time. Before we get to extracting the signatures, we need to have functions for converting the "created" and "deadline" variables to and from UNIX time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># UNIX TIME CONVERSION BORROWED FROM STACK</span>
+<span class="k">def</span> <span class="nf">convertUNIXtime</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Takes a unix time integer and converts it into a date string.&quot;&quot;&quot;</span>
+    <span class="n">new_time</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">new_time</span><span class="p">)</span>
+
+<span class="c1"># DATE BACK INTO UNIX</span>
+<span class="k">def</span> <span class="nf">convertDate</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Takes a date string and converts it into a unix time integer.&quot;&quot;&quot;</span>
+    <span class="n">new_time</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">new_time</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+Now that we are equipped with the proper tools for handling the data, we can start writing functions to make repeated calls to the API for signature extraction. We want to start by writing a simple helper function, findSigs, this will call the API once at a given offset, and then return an array of the corresponding UNIX times at which the petition was signed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">findSigs</span><span class="p">(</span><span class="n">petition</span><span class="p">,</span><span class="n">offset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;findSigs: call the signatures API once at a given offset</span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    petition(string): The petition id</span>
+<span class="sd">    offset(string): The index of the list of petition signatures</span>
+<span class="sd">    OUTPUT:</span>
+<span class="sd">    sig_times(array): An array containing UNIX time values at which the petition was signed&quot;&quot;&quot;</span>
+    <span class="n">sig_times</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_signatures</span><span class="p">(</span><span class="n">petition</span><span class="p">,</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)[</span><span class="s2">&quot;results&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">created</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">sig_times</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+Once we have a set of signatures, we would like to make it into time series data. The makeTS function will do this for us, and it serves as a helper function for the final, generalized function afterwards. I've explained the strategy on how to convert the UNIX times to time series data within the code, step-by-step.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">makeTS</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">pet_idx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    makeTS: Convert the set of all signatures times into an hourly time series dataframe.</span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    data(array): An integer array containing UNIX times of all petition signatures</span>
+<span class="sd">    pet_idex(int): The index on the petitions data frame, used for determining the deadline.</span>
+<span class="sd">    OUTPUT:</span>
+<span class="sd">    ts_df(dataframe): A pandas dataframe containing the cumulative signatures, by-hour signatures, days left, and id variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Find the number of time periods for the petition</span>
+    <span class="n">num_hours</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span>
+    <span class="c1">#Find the date of the first hour of the petition</span>
+    <span class="n">blank_bin</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[0-9]+:[0-9]+$&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">convertUNIXtime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span><span class="o">+</span><span class="s2">&quot;00:00&quot;</span>
+    <span class="c1">#Generate the time intervals for each hour that the petition has been running</span>
+    <span class="n">unix_intervals</span><span class="o">=</span><span class="p">[</span><span class="n">convertDate</span><span class="p">(</span><span class="n">blank_bin</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">3600</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_hours</span><span class="p">)]</span>
+    <span class="c1">#Create the days left variable by subtracting each unix time by hour from the deadline</span>
+    <span class="n">days_left</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">((</span><span class="n">petitions</span><span class="o">.</span><span class="n">deadline</span><span class="p">[</span><span class="n">pet_idx</span><span class="p">]</span><span class="o">-</span><span class="n">unix_intervals</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="p">),</span><span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1">#Derive the cumulative signatures by hour, and difference them to obtain the hourly signature counts</span>
+    <span class="n">cumulative_sigs</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">data</span><span class="o">&lt;=</span><span class="n">ui</span><span class="p">,</span><span class="n">data</span><span class="p">))</span> <span class="k">for</span> <span class="n">ui</span> <span class="ow">in</span> <span class="n">unix_intervals</span><span class="p">]</span>
+    <span class="n">sigs_diff</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span><span class="n">cumulative_sigs</span><span class="p">))</span>
+    <span class="c1">#Find the corresponding hours for the time periods and use it as an index</span>
+    <span class="n">hours</span><span class="o">=</span><span class="p">[</span><span class="n">convertUNIXtime</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span> <span class="k">for</span> <span class="n">ui</span> <span class="ow">in</span> <span class="n">unix_intervals</span><span class="p">]</span>
+    <span class="c1">#Finally, make a data frame with all these variables</span>
+    <span class="n">ts_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;total&quot;</span><span class="p">:</span><span class="n">cumulative_sigs</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="n">sigs_diff</span><span class="p">,</span><span class="s2">&quot;days_left&quot;</span><span class="p">:</span><span class="n">days_left</span><span class="p">,</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:[</span><span class="n">pet_idx</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">days_left</span><span class="p">)},</span><span class="n">index</span><span class="o">=</span><span class="n">hours</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">ts_df</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+We can combine these two functions in order to create get_all_signatures, a function that will create a time series dataset for the signatures of every petition we have from the WeThePeopleAPI. In order to make sure I call the API a proper number of times without encountering error, I set the number of queries as $\lceil \frac{n}{1000} \rceil$, where $n$ is the number of signatures in the petition.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">get_all_signatures</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+    <span class="c1">#Get the desired number of API calls for the </span>
+    <span class="n">num</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">petitions</span><span class="o">.</span><span class="n">signatureCount</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="c1">#Make all of the calls to the API</span>
+    <span class="n">sigtimes_list</span><span class="o">=</span><span class="p">[</span><span class="n">findSigs</span><span class="p">(</span><span class="n">petitions</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">)]</span>
+    <span class="c1">#Finally, concatenate the list of signature times into an array, and then convert it to a time series dataframe.</span>
+    <span class="n">signatures_ts</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">sigtimes_list</span><span class="p">)</span>
+    <span class="n">ts_df</span><span class="o">=</span><span class="n">makeTS</span><span class="p">(</span><span class="n">signatures_ts</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">ts_df</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><font size="4">
+We can finally performt he data extraction, simply by calling a list comprehension with the final function, and then using pd.concat to make the list of dataframes into a single dataframe.</p>
+<p><strong>Warning:</strong> The operation to extract all of the data is very slow, and may take up to 30 minutes. It is meant to be completed once. I recommend reading in the csv from github instead.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># petitions_timeseries=pd.concat([get_all_signatures(i) for i in petitions.index])</span>
 </pre></div>
 
 </div>
@@ -11928,8 +12341,7 @@ This is the dataframe we constructed.</p>
 <h1 id="Webscraping-Twitter">Webscraping Twitter<a class="anchor-link" href="#Webscraping-Twitter">&#182;</a></h1><p><font size="4">
 We also webscraped the 20 most recent tweets, straight from 20 political sources on Twitter, a site where many retrieve their political news. We manually compiled the URL and name of profile in the <a href="data/twitter_links.csv">twitter_links.csv</a> file.
 <br><br>
-We wanted to get a sampling of people from every position on the political spectrum, so our scraped profiles cover a variety of mainstream/fringe politicians and media figures. These included: Donald Trump, Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, and We the People.  
-    </p>
+We wanted to get a sampling of people from every position on the political spectrum, so our scraped profiles cover a variety of mainstream/fringe politicians and media figures. These included: Donald Trump, Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, and We the People.</p>
 
 </div>
 </div>
@@ -12247,7 +12659,6 @@ This is the dataframe we constructed.</p>
   </div>
 </body>
 </html>
-
 
 <div align=center>
 <br><br>
