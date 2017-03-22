@@ -11766,7 +11766,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h1><p><font size="4">
-We would like to apply our algorithm to a commonplace need such as classifying popular political figures on their words.
+To test out the effectiveness of our algorithm in a more practical, real world scenario we decided to apply it to the tweets of popular political figures. 
 </font></p>
 <h1 id="Contents">Contents<a class="anchor-link" href="#Contents">&#182;</a></h1><ol>
 <li><a href="#Libraries">Libraries</a></li>
@@ -11821,10 +11821,7 @@ Here are the libraries we used.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Twitter-Data">Twitter Data<a class="anchor-link" href="#Twitter-Data">&#182;</a></h1><p><font size="4">
-We ripped the most recent 20 tweets from the following Twitter profiles: Donald Trump (@POTUS), Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, and We the People.
-<br><br>
-The language in tweets is different but not distinctly different from that of petitions. We believe that testing on Twitter data may lead to interested language-choice insights about certain political sources. I chose 20 profiles that I thought may be interesting.
-</font></p>
+We ripped the most recent 20 tweets from the following Twitter profiles to get the widest range of political opinions possible: Donald Trump (@POTUS), Betsy Devos, Kellyanne Conway, Mike Pence, Mitt Romney, Jeb Bush, Milo Yiannopoulos, Sarah Palin, Ted Cruz, Jerry Brown, Jill Stein, Barack Obama, Joe Biden, Bernie Sanders, Hillary Clinton, Robert Reich, Justin Trudeau, Nate Silver, NYT Politics, CNN Politics, FOX Politics, Post Politics, and We the People.</font></p>
 
 </div>
 </div>
@@ -12920,7 +12917,8 @@ AAAAAAC+IJQAAAAAAAC++P/NVPkZ10mI4wAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="4">
-Explanation to come.
+By placing conservatives to the right and liberals to the left, you can see that our algorithm does a somewhat questionable job of classifying tweets. While on the one hand many results are unsurprising: Ronald Regand, Mitt Romney, Donald Trump and Mike Pence are all labeled as very likely to be conservative, while Canadian Prime Minister Justin Trudeau, Nate Silver and Hillary Clinton are very likely to be liberal. There are many more clearly incorrect placements. Sarah Palin is classified as being the most likely to be liberal, and Fox News leans further left than the Washington Post and is roughly on par with the NYT. 
+It becomes clear that there are likely to be numerous factors other than our modeling method that could be controlled for; some examples being age, state of residence, and level of education. This is roughly in line with what we’d expect to see, given our relatively high error rate, and is encouraging because it means the patterns shown in the petition data are consistent in other places. 
 </font></p>
 
 </div>
