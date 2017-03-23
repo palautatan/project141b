@@ -11766,7 +11766,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h1><p><font size="4">
-Recall that in the Data Acquisition step we knowledgeably classified petitions as either conservative, liberal, or neutral. Some bias may have been inherent in this classification, but we are confident that with these classifications will be able to detect bias as we desire.
+Recall that in the Data Acquisition step we knowledgeably classified petitions as either conservative, liberal, or neutral. Some bias on our end may have been inherent in this classification, but we are confident that with these classifications will be able to detect petition language bias as we desire.
 <br><br>
 We used a Random Forest model for our data, both because it's a very general approach, and because they are straightforward to run and explain. We chose it over similar methods like KNN because overall the error rate was much lower. You can view the code where we implemented KNN <a href=”https://github.com/palautatan/project141b/blob/master/code/knn.R”>here</a>.  A possible modification of this model might be to use boosting instead, if we planned on running it many times sequentially since that method uses fewer trees and thus might theoretically run faster (along with aiding in interpretability since the models will be smaller).
 </font></p>
