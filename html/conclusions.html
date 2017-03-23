@@ -11766,14 +11766,15 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h1><p><font size="4">
-While our results were somewhat underwhelming, over the course of this project we've learned that momentum has a huge impact on whether or not ideas will reach a critical mass, and that vocabulary choice, even with seemingly unrelated words, can be very helpful in detecting underlying bias.
-Specifically, our error rate is not terribly indicative of how effective a model like this can be since our choices of what made a petition liberal or conservative
-were human made and thus likely to be fairly biased. There are multiple other sorts of models that we could have tried - most notably something that included word order and dependence between words
-along with straightforward vocabulary choice.
-Unfortunately, putting our two models together didn't work out as well as we anticipated. However we still feel that our intial idea was worth testing and that this line of inquiry hasn't been completely exhausted. Failure is a necessary part of the scientific process and human knowledge can't move forward without it.
-We feel that there is a lot of value to be had in applying models like this (if not this one specifically) in detecting conscious or unconscious bias, and tracking the spread of information. We hope to return to this research and improve upon what we've started in the future.
-<br>
-It's been real, James. Peace out.
+First and foremost, we certainly tried to retrieve more petition data through the SQL database published on the We The People website, but sadly the current administration is not maintaining the website as fabulously as did the Obama administration. Over the course of this project we have learned that in order for ideas to reach a critical mass, a certain momentum of information spreading has to be achieved , and that vocabulary choice, even with seemingly unrelated words, can be very helpful in detecting underlying bias.
+<br><br>
+Our predictive model could be improved with more data. Because our sample size was limited, we were unable to fully understand what the signature momentum needed to be to get to the signature threshold. However, if the Trump administration soon notices that the SQL database link is down, we could add more data, and our model could be better fit. (All the code's there, the data's not -- what's new?)
+<br><br>
+Our error rate for our Random Forest, although seemingly high, does not properly indicate how effective our model could be in practice. Because our petitions were classified by us, our error rate was calculated based on how well our Random Forest model could decide the ideology of a body of text as we did. Our model definitely picks up on certain vocabulary choices within the text, and this can be further explored with more data. 
+<br><br>
+It should also be noted that we did not blindly choose a Random Forest model. We also tried KNN, as documented on the webpage for fitting the random forest model. There are multiple other sorts of models that we could have tried - most notably something that included word order and dependence between words along with straightforward vocabulary choice.
+<br><br>
+Unfortunately, putting our two models together didn't work out as well as we anticipated. However, we still feel that our intial idea of combining the two directions of our project was worth testing, and that this line of inquiry has not been completely exhausted. Failure is a necessary part of the scientific process and human knowledge can't move forward without it. We feel that there is a lot of value to be had in applying models like the ones we've made in detecting conscious or unconscious bias and tracking the spread of information. We hope to return to this research and improve upon what we've started in the future. (Check out this Github page in 50 years!)
 </font></p>
 
 </div>
