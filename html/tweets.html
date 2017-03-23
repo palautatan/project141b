@@ -12917,8 +12917,15 @@ AAAAAAC+IJQAAAAAAAC++P/NVPkZ10mI4wAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="4">
-By placing conservatives to the right and liberals to the left, you can see that our algorithm does a somewhat questionable job of classifying tweets. While on the one hand many results are unsurprising: Ronald Regand, Mitt Romney, Donald Trump and Mike Pence are all labeled as very likely to be conservative, while Canadian Prime Minister Justin Trudeau, Nate Silver and Hillary Clinton are very likely to be liberal. There are many more clearly incorrect placements. Sarah Palin is classified as being the most likely to be liberal, and Fox News leans further left than the Washington Post and is roughly on par with the NYT. 
-It becomes clear that there are likely to be numerous factors other than our modeling method that could be controlled for; some examples being age, state of residence, and level of education. This is roughly in line with what we’d expect to see, given our relatively high error rate, and is encouraging because it means the patterns shown in the petition data are consistent in other places. 
+
+By placing conservatives to the right and liberals to the left, you can see that our algorithm does a somewhat questionable job of classifying tweets. This plot is colored to reflect relative liberalness and conservativeness.
+<br><br>
+Some of our results are unsurprising: Mitt Romney, Donald Trump and Mike Pence are all labeled as very likely to be conservative, while Canadian Prime Minister Justin Trudeau, Nate Silver and Hillary Clinton are very likely to be liberal. There are many more clearly incorrect placements. Sarah Palin is classified as being the most likely to be liberal, and Fox News leans further left than the Washington Post and is roughly on par with the NYT.
+<br><br>
+There are likely to be numerous factors other than our modeling method that could be controlled for. We believe that much of our error in our classification was due to age of the Twitter account holder (we have reason to believe older people use certain words more than younger folk) and/or decorated language in Tweets. These two differences would confuse our model. Tweets also have much less text than petitions, thus our model did not have that much text to predict for. Something we could do in the future is to predict language bias in blog posts or articles.
+<br><br>
+We find our model to still be encouraging because it may be picking up on other linguistic patterns.
+    
 </font></p>
 
 </div>
